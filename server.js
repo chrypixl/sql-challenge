@@ -9,9 +9,7 @@ app.use(express.json());
 
 const pool = new Pool(
   {
-    // TODO: Enter PostgreSQL username
     user: 'postgres',
-    // TODO: Enter PostgreSQL password
     password: 's+1ckY-k37s',
     host: 'localhost',
     database: 'employees_db'
