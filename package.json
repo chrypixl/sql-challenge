@@ -1,0 +1,13 @@
+{
+  "name": "sql-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "inquirer": "^8.2.4",
+    "pg": "^8.12.0"
+  }
+}
