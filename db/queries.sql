@@ -1,5 +1,3 @@
-/*
-SELECT
-FROM
-JOIN
-*/
+-- SLECT id AS dept_id;
+-- SELECT * FROM role;
+-- SELECT * FROM employee;
