@@ -55,7 +55,7 @@ inquirer
             }
           })
         })
-    } eise if (response.choice === 'Add Role') {
+    } else if (response.choice === 'Add Role') {
         inquirer
         .prompt([
         {
@@ -75,7 +75,7 @@ inquirer
     }
     
   })
-}
+};
 
 run();
   
