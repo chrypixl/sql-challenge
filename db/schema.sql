@@ -13,7 +13,7 @@ CREATE TABLE roles (
 id SERIAL PRIMARY KEY,
 title VARCHAR(30) UNIQUE NOT NULL,
 salary DECIMAL NOT NULL,
-role_id INTEGER NOT NULL,
+department_id INTEGER NOT NULL,
 FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
