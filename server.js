@@ -42,7 +42,7 @@ inquirer
       addDepartment();
     } else if (response.choice === 'Add Role') {
       addRole();      
-    } else if (response.choice === 'Update Employee role') {
+    } else if (response.choice === 'Update Employee Role') {
       updateRole();
     } else if (response.choice === 'Add Employee') {
       addEmployee();
@@ -51,7 +51,7 @@ inquirer
 };
 
 function viewDepartments() {
-  pool.query('SELECT id AS dept_id, name AS dept_name FROM department', function (err, res) {
+  pool.query('SELECT id AS dept_id, dept_name AS dept_name FROM department', function (err, res) {
     console.table(res.rows);
     run();
   })
@@ -65,7 +65,7 @@ function viewRoles() {
 };
 
 function viewEmployees() {
-  pool.query('SELECT id AS emp_id, first_name AS first_name, last_name AS last_name FROM department', function (err, res) {
+  pool.query('SELECT id AS emp_id, first_name AS first_name, last_name AS last_name FROM employees', function (err, res) {
     console.table(res.rows);
     run();
   })
@@ -80,7 +80,7 @@ function addDepartment() {
     }
   ])
   .then((response) => {
-    pool.query('INSERT INTO department(name) VALUES($1)', [response.departmentName], (err, res) => {
+    pool.query('INSERT INTO department(dept_name) VALUES($1)', [response.name], (err, res) => {
       if (err) {
         console.log(err); 
       } else {
@@ -108,7 +108,7 @@ function addRole() {
     }
   ])
   .then((response) => {
-    pool.query('INSERT INTO roles(title, salary, department) VALUES($1, $2, $3)', [response.title, response.salary, response.dept], (err, res) => {
+    pool.query('INSERT INTO roles(title, salary, department_id) VALUES($1, $2, $3)', [response.title, response.salary, response.dept], (err, res) => {
       if (err) {
         console.log(err); 
       } else {
@@ -120,9 +120,9 @@ function addRole() {
 };
 
 function updateRole() {
-  db.query('SELECT id, title FROM role', (err, {rows}) => {
+  pool.query('SELECT id, title FROM roles', (err, {rows}) => { 
     let roles = rows.map(role => ({name: role.title, value: role.id}))
-    db.query('SELECT first_name, last_name, id FROM employee', (err, {rows}) => {
+    pool.query('SELECT first_name, last_name, id FROM employees', (err, {rows}) => { 
       let employees = rows.map(employee => ({name: employee.first_name + " " + employee.last_name, value: employee.id}))
       inquirer.prompt([
         {
@@ -139,7 +139,7 @@ function updateRole() {
         },
       ])
       .then(res => {
-        db.query("update employee set role_id = $2 where id = $1", [res.roleUpdate, res.employeeUpdate], (err) => {
+        pool.query("update employees set role_id = $2 where id = $1", [res.roleUpdate, res.employeeUpdate], (err) => {
           if (err)
             throw (err)
           console.log("Your Role has been added");
@@ -163,7 +163,7 @@ function addEmployee() {
     },
     {
       message: "What is their manager's id(number)?",
-      name: 'role_id'
+      name: 'manager_id'
     },
     {
       message: 'What is the role id(number)?',
@@ -175,7 +175,7 @@ function addEmployee() {
       if (err) {
         console.log(err); 
       } else {
-        console.table(`${res.first_name} ${res.last_name} has been added to the Employees list!`);
+        console.log(`${response.first_name} ${response.last_name} has been added to the Employees list!`);
         run();
       }
     })
